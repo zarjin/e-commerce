@@ -4,10 +4,13 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import 'dotenv/config';
 import dbconnect from './config/db.connect.js';
+import authRouter from './routes/auth.routes.js';
 
 const app = express();
 
 dbconnect();
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -18,6 +21,8 @@ app.use(
     credentials: true,
   }),
 );
+
+app.use('/api/auth', authRouter);
 
 const PORT = process.env.PORT || 5000;
 
