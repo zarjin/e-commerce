@@ -1,65 +1,66 @@
-import { create } from 'zustand';
-import axios from 'axios';
+import { create } from "zustand";
+import axios from "axios";
+import { toast } from "react-toastify";
 
-const useAuthStore = create((set) => ({
-  isAuthenticated: false,
-  isLoading: false,
-  error: null,
+const AUTH_API = import.meta.env.VITE_BACKEND_AUTH_URL;
 
-  register: async (registerUserData) => {
-    set({ isLoading: true });
+const handleError = (error, fallback = "Something went wrong!") => {
+  console.error(error);
+  toast.error(error?.response?.data?.message || error.message || fallback);
+};
+
+const Store = create((set) => ({
+  isLoggedIn: false,
+
+  register: async (userData) => {
     try {
-      await axios.post(
-        `${import.meta.env.VITE_BACKEND_AUTH_URL}/register`,
-        registerUserData,
-        { withCredentials: true },
-      );
-      set({ isAuthenticated: true, error: null });
-    } catch (error) {
-      console.error('Registration error:', error);
-      set({
-        error:
-          error.response?.data?.message ||
-          error.message ||
-          'Registration failed',
+      const { data } = await axios.post(`${AUTH_API}/register`, userData, {
+        withCredentials: true,
       });
-    } finally {
-      set({ isLoading: false });
+      toast.success(data.message || "Registration successful!");
+      set({ isLoggedIn: true });
+    } catch (error) {
+      handleError(error, "Registration failed!");
+      set({ isLoggedIn: false });
     }
   },
 
-  login: async (loginUserData) => {
-    set({ isLoading: true });
+  login: async (userData) => {
     try {
-      await axios.post(
-        `${import.meta.env.VITE_BACKEND_AUTH_URL}/login`,
-        loginUserData,
-        { withCredentials: true },
-      );
-      set({ isAuthenticated: true, error: null });
-    } catch (error) {
-      console.error('Login error:', error);
-      set({
-        error: error.response?.data?.message || error.message || 'Login failed',
+      const { data } = await axios.post(`${AUTH_API}/login`, userData, {
+        withCredentials: true,
       });
-    } finally {
-      set({ isLoading: false });
+      toast.success(data.message || "Login successful!");
+      set({ isLoggedIn: true });
+    } catch (error) {
+      handleError(error, "Login failed!");
+      set({ isLoggedIn: false });
     }
   },
 
   logout: async () => {
     try {
-      await axios.post(
-        `${import.meta.env.VITE_BACKEND_AUTH_URL}/logout`,
-        {},
-        { withCredentials: true },
-      );
+      const { data } = await axios.get(`${AUTH_API}/logout`, {
+        withCredentials: true,
+      });
+      toast.success(data.message || "Logout successful!");
+      set({ isLoggedIn: false });
     } catch (error) {
-      console.error('Logout error:', error);
-    } finally {
-      set({ isAuthenticated: false, error: null });
+      handleError(error, "Logout failed!");
+    }
+  },
+
+  checkAuth: async () => {
+    try {
+      const { data } = await axios.get(`${AUTH_API}/check-auth`, {
+        withCredentials: true,
+      });
+      set({ isLoggedIn: data?.isLoggedIn || false });
+    } catch (error) {
+      set({ isLoggedIn: false });
+      handleError(error, "Failed to check login status!");
     }
   },
 }));
 
-export default useAuthStore;
+export default Store;

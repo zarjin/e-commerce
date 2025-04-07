@@ -1,25 +1,23 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router'; // ✅ Correct import
-import useAuthStore from '../zustand/AuthStore.js';
-import { toast } from 'react-toastify';
+import React, { useState } from "react";
+import { Link } from "react-router";
+import Store from "../zustand/AuthStore.js";
 
 const Login = () => {
-  const { login, error } = useAuthStore(); // ✅ Include error for UI
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const { login } = Store();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const loginData = { email, password };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await login(loginData); // ✅ Await async function
-      toast.success('Login successful!');
-      setEmail('');
-      setPassword('');
+      await login(loginData);
+      setEmail("");
+      setPassword("");
+      window.location.href = "/";
     } catch (error) {
-      console.error('Login error:', error);
-      toast.error('Login failed!');
+      console.error("Login error:", error);
     }
   };
 
@@ -30,7 +28,7 @@ const Login = () => {
           Login to your account
         </h2>
         <p className="mt-2 text-center text-sm text-gray-600">
-          Don't have an account?{' '}
+          Don't have an account?{" "}
           <Link
             to="/register"
             className="font-medium text-indigo-600 hover:text-indigo-500"
@@ -84,10 +82,6 @@ const Login = () => {
                 />
               </div>
             </div>
-
-            {error && (
-              <p className="text-sm text-red-500 text-center">{error}</p>
-            )}
 
             <div>
               <button

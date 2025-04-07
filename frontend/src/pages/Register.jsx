@@ -1,38 +1,37 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router';
-import useAuthStore from '../zustand/AuthStore.js';
-import { toast } from 'react-toastify';
+import React, { useState } from "react";
+import { Link } from "react-router";
+import Store from "../zustand/AuthStore.js";
 
 const Register = () => {
-  const { register } = useAuthStore();
+  const { regsister } = Store();
 
-  const [fullname, setFullname] = useState('');
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [fullname, setFullname] = useState("");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [profile, setProfile] = useState(null);
 
   const fromData = new FormData();
-  fromData.append('fullname', fullname);
-  fromData.append('username', username);
-  fromData.append('email', email);
-  fromData.append('password', password);
-  fromData.append('profile', profile);
+  fromData.append("fullname", fullname);
+  fromData.append("username", username);
+  fromData.append("email", email);
+  fromData.append("password", password);
+  fromData.append("profile", profile);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await register(fromData);
-      console.log('Registration successful!');
-      toast.success('Registration successful!');
-      setFullname('');
-      setUsername('');
-      setEmail('');
-      setPassword('');
+      await regsister(fromData);
+      console.log("Registration successful!");
+
+      setFullname("");
+      setUsername("");
+      setEmail("");
+      setPassword("");
       setProfile(null);
+      window.location.href = "/";
     } catch (error) {
-      console.error('Registration error:', error);
-      toast.error('Registration failed!');
+      console.error("Registration error:", error);
     }
   };
 
@@ -43,12 +42,12 @@ const Register = () => {
           Create a new account
         </h2>
         <p className="mt-2 text-center text-sm text-gray-600">
-          Already have an account?{' '}
+          Already have an account?{" "}
           <Link
             to="/login"
             className="font-medium text-indigo-600 hover:text-indigo-500"
           >
-            Login{' '}
+            Login{" "}
           </Link>
         </p>
       </div>
