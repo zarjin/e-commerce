@@ -1,23 +1,8 @@
-import React, { useEffect } from "react";
-import { Link, useNavigate } from "react-router"; // Corrected 'react-router' to 'react-router-dom'
-import Store from "../zustand/AuthStore.js";
-
+import React, { useContext } from "react";
+import { Link } from "react-router"; // Corrected 'react-router' to 'react-router-dom'
+import { AuthContext } from "../context/AuthContext";
 export default function Navbar() {
-  const { isLoggedIn, checkAuth, logout } = Store();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    checkAuth(); // Automatically check auth on mount
-  }, [checkAuth]);
-
-  const handleLogout = async () => {
-    try {
-      await logout();
-      navigate("/login");
-    } catch (error) {
-      console.error("Logout error:", error);
-    }
-  };
+  const { isLoggedIn, logout } = useContext(AuthContext);
 
   return (
     <nav className="w-full h-16 flex items-center justify-between px-6 bg-gray-500 font-Roboto text-white">
@@ -27,9 +12,9 @@ export default function Navbar() {
       <div className="authButton">
         {isLoggedIn ? (
           <button
+            onClick={logout}
             type="button"
             className="bg-red-700 hover:bg-red-800 text-white font-bold py-2 px-4 rounded mr-4 transition duration-200"
-            onClick={handleLogout}
           >
             Logout
           </button>

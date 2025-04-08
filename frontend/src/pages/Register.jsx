@@ -1,9 +1,10 @@
-import React, { useState } from "react";
-import { Link } from "react-router";
-import Store from "../zustand/AuthStore.js";
+import React, { useState, useContext } from "react";
+import { Link, useNavigate } from "react-router";
+import { AuthContext } from "../context/AuthContext";
 
 const Register = () => {
-  const { regsister } = Store();
+  const { register } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const [fullname, setFullname] = useState("");
   const [username, setUsername] = useState("");
@@ -11,25 +12,28 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [profile, setProfile] = useState(null);
 
-  const fromData = new FormData();
-  fromData.append("fullname", fullname);
-  fromData.append("username", username);
-  fromData.append("email", email);
-  fromData.append("password", password);
-  fromData.append("profile", profile);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("fullname", fullname);
+    formData.append("username", username);
+    formData.append("email", email);
+    formData.append("password", password);
+    formData.append("profile", profile);
+
     try {
-      await regsister(fromData);
+      await register(formData);
       console.log("Registration successful!");
 
+      // Reset form
       setFullname("");
       setUsername("");
       setEmail("");
       setPassword("");
       setProfile(null);
-      window.location.href = "/";
+
+      navigate("/");
     } catch (error) {
       console.error("Registration error:", error);
     }
@@ -47,7 +51,7 @@ const Register = () => {
             to="/login"
             className="font-medium text-indigo-600 hover:text-indigo-500"
           >
-            Login{" "}
+            Login
           </Link>
         </p>
       </div>
@@ -69,9 +73,9 @@ const Register = () => {
                     name="fullname"
                     type="text"
                     required
-                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     value={fullname}
                     onChange={(e) => setFullname(e.target.value)}
+                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   />
                 </div>
               </div>
@@ -111,8 +115,8 @@ const Register = () => {
                   type="email"
                   autoComplete="email"
                   required
-                  onChange={(e) => setEmail(e.target.value)}
                   value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 />
               </div>
@@ -132,9 +136,9 @@ const Register = () => {
                   type="password"
                   autoComplete="new-password"
                   required
-                  onChange={(e) => setPassword(e.target.value)}
-                  value={password}
                   minLength={6}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 />
               </div>
@@ -152,9 +156,13 @@ const Register = () => {
                   id="profile"
                   name="profile"
                   type="file"
+                  accept="image/*"
                   onChange={(e) => setProfile(e.target.files[0])}
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 />
+                {profile && (
+                  <p className="text-sm mt-1 text-gray-500">{profile.name}</p>
+                )}
               </div>
             </div>
 

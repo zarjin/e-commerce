@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router";
-import Store from "../zustand/AuthStore.js";
 
 const Login = () => {
-  const { login } = Store();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -12,7 +10,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await login(loginData);
+      await login();
       setEmail("");
       setPassword("");
       window.location.href = "/";
