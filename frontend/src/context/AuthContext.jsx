@@ -24,6 +24,19 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const UpdateProfile = async (formData) => {
+    try {
+      await axios.put(`${AUTH_API}/update-user`, formData, {
+        withCredentials: true,
+      });
+      toast.success("User Update Profile successfully");
+      setIsLoggedIn(true);
+    } catch (error) {
+      toast.error(error?.response?.data?.message || error.message);
+      setIsLoggedIn(false);
+    }
+  };
+
   const login = async (formData) => {
     try {
       await axios.post(`${AUTH_API}/login`, formData, {
@@ -79,7 +92,15 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ register, login, logout, isLoggedIn, fetchUserData, userData }}
+      value={{
+        register,
+        login,
+        logout,
+        isLoggedIn,
+        fetchUserData,
+        userData,
+        UpdateProfile,
+      }}
     >
       {children}
     </AuthContext.Provider>

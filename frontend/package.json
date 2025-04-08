@@ -15,6 +15,7 @@
     "dotenv": "^16.4.7",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-loading-screen": "^0.0.17",
     "react-router": "^7.5.0",
     "react-toastify": "^11.0.5",
     "tailwindcss": "^4.1.3"

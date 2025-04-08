@@ -6,7 +6,7 @@ import {
   updateUser,
   getUser,
   checkAuth,
-} from "../controllers/auth.controllers.js";
+} from "../controllers/auth.controller.js";
 import authMiddleware from "../middlewares/auth.middewares.js";
 import upload from "./../config/multer.js";
 
