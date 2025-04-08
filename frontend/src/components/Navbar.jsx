@@ -1,8 +1,11 @@
 import React, { useContext } from "react";
-import { Link } from "react-router"; // Corrected 'react-router' to 'react-router-dom'
+import { Link } from "react-router";
 import { AuthContext } from "../context/AuthContext";
+
 export default function Navbar() {
-  const { isLoggedIn, logout } = useContext(AuthContext);
+  const { isLoggedIn, logout, loading } = useContext(AuthContext);
+
+  if (loading) return null;
 
   return (
     <nav className="w-full h-16 flex items-center justify-between px-6 bg-gray-500 font-Roboto text-white">

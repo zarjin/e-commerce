@@ -1,21 +1,31 @@
-import React, { useState } from "react";
-import { Link } from "react-router";
+import React, { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router";
+import { AuthContext } from "../context/AuthContext";
 
 const Login = () => {
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const loginData = { email, password };
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError("");
+
     try {
-      await login();
+      await login({ email, password });
       setEmail("");
       setPassword("");
-      window.location.href = "/";
-    } catch (error) {
-      console.error("Login error:", error);
+      navigate("/");
+    } catch (err) {
+      console.error("Login error:", err);
+      setError("Invalid email or password. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -39,6 +49,12 @@ const Login = () => {
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
           <form className="space-y-6" onSubmit={handleSubmit}>
+            {error && (
+              <div className="text-sm text-red-600 font-medium text-center">
+                {error}
+              </div>
+            )}
+
             <div>
               <label
                 htmlFor="email"
@@ -84,9 +100,14 @@ const Login = () => {
             <div>
               <button
                 type="submit"
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                disabled={loading}
+                className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${
+                  loading
+                    ? "bg-indigo-400 cursor-not-allowed"
+                    : "bg-indigo-600 hover:bg-indigo-700"
+                } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
               >
-                Login
+                {loading ? "Logging in..." : "Login"}
               </button>
             </div>
 

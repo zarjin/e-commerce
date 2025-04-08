@@ -134,8 +134,8 @@ export const getUser = async (req, res) => {
 
 export const checkAuth = async (req, res) => {
   try {
-    res.status(200).json({ message: "Authenticated" });
+    res.status(200).json({ authenticated: true });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(200).json({ authenticated: false });
   }
 };
