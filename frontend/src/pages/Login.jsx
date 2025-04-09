@@ -1,10 +1,9 @@
 import React, { useContext, useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link } from "react-router";
 import { AuthContext } from "../context/AuthContext";
 
 const Login = () => {
   const { login } = useContext(AuthContext);
-  const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -20,7 +19,7 @@ const Login = () => {
       await login({ email, password });
       setEmail("");
       setPassword("");
-      navigate("/");
+      window.location.href = "/";
     } catch (err) {
       console.error("Login error:", err);
       setError("Invalid email or password. Please try again.");

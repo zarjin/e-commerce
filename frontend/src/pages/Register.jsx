@@ -1,10 +1,9 @@
 import React, { useState, useContext } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link } from "react-router";
 import { AuthContext } from "../context/AuthContext";
 
 const Register = () => {
   const { register } = useContext(AuthContext);
-  const navigate = useNavigate();
 
   const [fullname, setFullname] = useState("");
   const [username, setUsername] = useState("");
@@ -33,7 +32,7 @@ const Register = () => {
       setPassword("");
       setProfile(null);
 
-      navigate("/");
+      window.location.href = "/";
     } catch (error) {
       console.error("Registration error:", error);
     }
