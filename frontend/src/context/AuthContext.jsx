@@ -88,6 +88,7 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     checkAuth();
+    fetchUserData();
   }, []);
 
   return (

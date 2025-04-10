@@ -1,15 +1,12 @@
 import React, { useState, useContext } from "react";
-import { Link, useNavigate } from "react-router";
 import { AuthContext } from "../context/AuthContext";
 
 const UpdateProfile = () => {
   const { UpdateProfile } = useContext(AuthContext);
-  const navigate = useNavigate();
 
   const [fullname, setFullname] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [profile, setProfile] = useState(null);
 
   const handleSubmit = async (e) => {
@@ -19,38 +16,37 @@ const UpdateProfile = () => {
     formData.append("fullname", fullname);
     formData.append("username", username);
     formData.append("email", email);
-    formData.append("password", password);
     formData.append("profile", profile);
 
     try {
       await UpdateProfile(formData);
       console.log("UpdateProfile successful!");
 
-      // Reset form
       setFullname("");
       setUsername("");
       setEmail("");
-      setPassword("");
+
       setProfile(null);
 
-      navigate("/");
+      window.location.href = "/profile";
     } catch (error) {
       console.error("UpdateProfile error:", error);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          Upadte Account
-        </h2>
+    <div className="min-h-screen bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
+        <h2 className="text-4xl font-extrabold text-white">Update Account</h2>
+        <p className="mt-2 text-sm text-gray-100">
+          Keep your profile fresh and fabulous 🌈
+        </p>
       </div>
 
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-md">
+        <div className="bg-white/80 backdrop-blur-lg py-10 px-6 shadow-2xl rounded-2xl sm:px-12">
           <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
               <div>
                 <label
                   htmlFor="fullname"
@@ -58,19 +54,15 @@ const UpdateProfile = () => {
                 >
                   Fullname
                 </label>
-                <div className="mt-1">
-                  <input
-                    id="fullname"
-                    name="fullname"
-                    type="text"
-                    required
-                    value={fullname}
-                    onChange={(e) => setFullname(e.target.value)}
-                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  />
-                </div>
+                <input
+                  id="fullname"
+                  type="text"
+                  required
+                  value={fullname}
+                  onChange={(e) => setFullname(e.target.value)}
+                  className="mt-1 block w-full px-4 py-2 rounded-xl border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition"
+                />
               </div>
-
               <div>
                 <label
                   htmlFor="username"
@@ -78,17 +70,14 @@ const UpdateProfile = () => {
                 >
                   Username
                 </label>
-                <div className="mt-1">
-                  <input
-                    id="username"
-                    name="username"
-                    type="text"
-                    required
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  />
-                </div>
+                <input
+                  id="username"
+                  type="text"
+                  required
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  className="mt-1 block w-full px-4 py-2 rounded-xl border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition"
+                />
               </div>
             </div>
 
@@ -99,18 +88,14 @@ const UpdateProfile = () => {
               >
                 Email address
               </label>
-              <div className="mt-1">
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                />
-              </div>
+              <input
+                id="email"
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="mt-1 block w-full px-4 py-2 rounded-xl border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition"
+              />
             </div>
 
             <div>
@@ -120,25 +105,24 @@ const UpdateProfile = () => {
               >
                 Profile Image
               </label>
-              <div className="mt-1">
-                <input
-                  id="profile"
-                  name="profile"
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => setProfile(e.target.files[0])}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                />
-                {profile && (
-                  <p className="text-sm mt-1 text-gray-500">{profile.name}</p>
-                )}
-              </div>
+              <input
+                id="profile"
+                type="file"
+                accept="image/*"
+                onChange={(e) => setProfile(e.target.files[0])}
+                className="mt-1 block w-full px-4 py-2 rounded-xl border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition"
+              />
+              {profile && (
+                <p className="text-sm mt-1 text-gray-500">
+                  Selected: <span className="font-medium">{profile.name}</span>
+                </p>
+              )}
             </div>
 
             <div>
               <button
                 type="submit"
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="w-full bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 text-white font-semibold py-2 px-4 rounded-xl shadow-lg hover:shadow-xl transition duration-300"
               >
                 Update Account
               </button>

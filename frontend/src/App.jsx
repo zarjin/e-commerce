@@ -7,20 +7,47 @@ import Login from "./pages/Login";
 import Navbar from "./components/Navbar";
 import Profile from "./pages/Profile.jsx";
 import UpdateProfile from "./pages/UpdateProfile.jsx";
+import CreateProduct from "./pages/CreateProduct.jsx";
+import { ProdcutProvider } from "./context/PeoductContext.jsx";
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
 
 export default function App() {
   return (
     <Router>
       <AuthProvider>
-        <Navbar />
-        <ToastContainer />
-        <Routes>
-          <Route path="/" element={<div>App</div>} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/updateprofile" element={<UpdateProfile />} />
-        </Routes>
+        <ProdcutProvider>
+          <Navbar />
+          <ToastContainer />
+          <Routes>
+            <Route path="/" element={<div>App</div>} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <Profile />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/updateprofile"
+              element={
+                <ProtectedRoute>
+                  <UpdateProfile />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/create-products"
+              element={
+                <ProtectedRoute>
+                  <CreateProduct />
+                </ProtectedRoute>
+              }
+            />
+          </Routes>
+        </ProdcutProvider>
       </AuthProvider>
     </Router>
   );

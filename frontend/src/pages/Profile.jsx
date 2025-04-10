@@ -1,36 +1,43 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { Link } from "react-router";
 
 export default function Profile() {
-  const { fetchUserData, userData } = useContext(AuthContext);
-
-  useEffect(() => {
-    fetchUserData();
-  }, []);
+  const { userData } = useContext(AuthContext);
 
   if (!userData) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <div className="text-xl text-gray-600">Loading...</div>
+      <div className="flex justify-center items-center h-screen bg-gradient-to-br from-purple-500 to-pink-500">
+        <div className="text-2xl text-white animate-pulse">Loading...</div>
       </div>
     );
   }
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-sm text-center">
-        <img
-          className="w-32 h-32 rounded-full mx-auto mb-4 object-cover"
-          src={userData.profile}
-          alt={userData.fullname + " profile picture"}
-        />
-        <h1 className="text-3xl font-semibold text-gray-800 mb-2">
+    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-purple-500 to-pink-500 p-4">
+      <div className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md text-center transform hover:scale-105 transition-all duration-300">
+        <div className="relative mb-6">
+          <img
+            className="w-40 h-40 rounded-full mx-auto object-cover border-4 border-purple-400 shadow-lg"
+            src={userData.profile}
+            alt={userData.fullname + " profile picture"}
+          />
+          <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-purple-400/20 to-pink-400/20"></div>
+        </div>
+
+        <h1 className="text-4xl font-bold text-gray-800 mb-3 tracking-wide">
           {userData.fullname}
         </h1>
-        <p className="text-lg text-gray-500 mb-4">{userData.email}</p>
+        <p className="text-lg text-purple-600 mb-6 font-medium">
+          {userData.email}
+        </p>
+
         <Link to="/updateprofile">
-          <button className="px-6 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition duration-300">
+          <button
+            className="px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full
+            hover:from-purple-700 hover:to-pink-700 transform hover:-translate-y-1
+            transition-all duration-300 font-semibold shadow-lg hover:shadow-xl"
+          >
             Edit Profile
           </button>
         </Link>
