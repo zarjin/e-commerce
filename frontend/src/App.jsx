@@ -8,7 +8,7 @@ import Navbar from "./components/Navbar";
 import Profile from "./pages/Profile.jsx";
 import UpdateProfile from "./pages/UpdateProfile.jsx";
 import CreateProduct from "./pages/CreateProduct.jsx";
-import { ProdcutProvider } from "./context/PeoductContext.jsx";
+import { ProdcutProvider } from "./context/ProductContext.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 
 export default function App() {
@@ -38,14 +38,7 @@ export default function App() {
                 </ProtectedRoute>
               }
             />
-            <Route
-              path="/create-products"
-              element={
-                <ProtectedRoute>
-                  <CreateProduct />
-                </ProtectedRoute>
-              }
-            />
+            <Route path="/create-products" element={<CreateProduct />} />
           </Routes>
         </ProdcutProvider>
       </AuthProvider>

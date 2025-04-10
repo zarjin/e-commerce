@@ -1,15 +1,17 @@
-import React, { useState } from "react";
-
+import React, { useState, useContext } from "react";
+import { ProductContext } from "../context/ProductContext";
 export default function CreateProduct() {
+  const { createProducts } = useContext(ProductContext);
+
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [price, setPrice] = useState("");
+  const [price, setPrice] = useState(null);
   const [category, setCategory] = useState("");
   const [brand, setBrand] = useState("");
   const [stock, setStock] = useState("");
   const [productImage, setProductImage] = useState(null);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const formData = new FormData();
@@ -20,10 +22,22 @@ export default function CreateProduct() {
     formData.append("brand", brand);
     formData.append("stock", stock);
     if (productImage) {
-      formData.append("productImage", productImage);
+      formData.append("productimages", productImage);
     }
 
-    console.log("Submitting product:", Object.fromEntries(formData.entries()));
+    try {
+      await createProducts(formData);
+      setName("");
+      setBrand("");
+      setCategory("");
+      setDescription("");
+      setPrice("");
+      setStock("");
+      setProductImage("");
+      window.location.href = "/";
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -85,7 +99,6 @@ export default function CreateProduct() {
           <input
             type="file"
             onChange={(e) => setProductImage(e.target.files?.[0] || null)}
-            accept="image/*"
             className="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100 cursor-pointer bg-white/50 rounded-xl border border-purple-200 backdrop-blur-sm"
           />
         </div>
