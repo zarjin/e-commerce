@@ -1,8 +1,25 @@
 import React, { useContext } from 'react'
+import { CartContext } from '../context/CartContext'
 import { ProductContext } from '../context/ProductContext'
 
 export default function Home() {
   const { allProducts } = useContext(ProductContext)
+  const { addCart } = useContext(CartContext)
+
+  // Define a dynamic handler that takes a product object as an argument
+  const handleAddCart = (product) => {
+    // Construct the payload specific to the product
+    const addCartData = {
+      userId: product.createdBy, // Assuming each product has a createdBy field
+      products: [
+        {
+          productId: product._id,
+        },
+      ],
+    }
+    // Call the addCart function with the product-specific data
+    addCart(addCartData)
+  }
 
   return (
     <div className="w-full min-h-screen bg-gray-100 font-['Roboto'] py-8">
@@ -28,7 +45,10 @@ export default function Home() {
 
             <div className="text-indigo-600 font-bold text-md mb-4">${product.price}</div>
 
-            <button className="mt-auto bg-indigo-600 text-white px-4 py-2 rounded-xl hover:bg-indigo-700 transition">
+            <button
+              onClick={() => handleAddCart(product)}
+              className="mt-auto bg-indigo-600 text-white px-4 py-2 rounded-xl hover:bg-indigo-700 transition"
+            >
               Add to Cart
             </button>
           </div>
