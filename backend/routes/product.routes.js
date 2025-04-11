@@ -6,6 +6,7 @@ import {
   editProducts,
   getAllmyCreateProducts,
   getAllProducts,
+  getProductById,
 } from '../controllers/product.controller.js'
 import authMiddleware from '../middlewares/auth.middewares.js'
 
@@ -16,6 +17,7 @@ productRouter.post('/create', uplaod.single('productimages'), authMiddleware, cr
 productRouter.get('/user-products', authMiddleware, getAllmyCreateProducts)
 productRouter.delete('/delete/:id', authMiddleware, deleteProducts)
 productRouter.get('/getall-products', authMiddleware, getAllProducts)
-productRouter.put('/edit/:id', authMiddleware, editProducts)
+productRouter.get('/product/:id', authMiddleware, getProductById)
+productRouter.put('/edit/:id', uplaod.single('productimages'), authMiddleware, editProducts)
 
 export default productRouter

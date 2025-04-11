@@ -87,6 +87,23 @@ export const getAllProducts = async (req, res) => {
     res.status(500).json({ message: 'Something Wong' })
   }
 }
+
+export const getProductById = async (req, res) => {
+  const { id } = req.params
+
+  try {
+    const product = await productsModels.findById(id)
+
+    if (!product) {
+      return res.status(404).json({ message: 'Product not found' })
+    }
+
+    res.status(200).json(product)
+  } catch (error) {
+    console.error('Get Product Error:', error)
+    res.status(500).json({ message: 'Server error while fetching product' })
+  }
+}
 export const editProducts = async (req, res) => {
   const { id } = req.params
 

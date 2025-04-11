@@ -1,4 +1,5 @@
-import React, { useContext, useState } from 'react'
+import axios from 'axios'
+import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 import { ProductContext } from '../context/ProductContext'
 
@@ -7,6 +8,7 @@ export default function EditProducts() {
   const { id } = useParams()
 
   const { editProduct } = useContext(ProductContext)
+  const PRODUCTS_URL = import.meta.env.VITE_BACKEND_PRODUCT_URL
 
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
@@ -15,6 +17,36 @@ export default function EditProducts() {
   const [brand, setBrand] = useState('')
   const [stock, setStock] = useState('')
   const [productImage, setProductImage] = useState(null)
+  const [loading, setLoading] = useState(true)
+
+  // Fetch product data when component mounts
+  useEffect(() => {
+    const fetchProductData = async () => {
+      try {
+        setLoading(true)
+        const { data } = await axios.get(`${PRODUCTS_URL}/product/${id}`, {
+          withCredentials: true,
+        })
+
+        // Populate form fields with existing data
+        setName(data.name || '')
+        setDescription(data.description || '')
+        setPrice(data.price || '')
+        setCategory(data.category || '')
+        setBrand(data.brand || '')
+        setStock(data.stock || '')
+        setLoading(false)
+      } catch (error) {
+        console.error('Error fetching product data:', error)
+        alert('Failed to load product data. Please try again.')
+        navigate('/')
+      }
+    }
+
+    if (id) {
+      fetchProductData()
+    }
+  }, [id, PRODUCTS_URL, navigate])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -44,6 +76,14 @@ export default function EditProducts() {
       console.error(error)
       alert('Something went wrong while editing the product. Please try again.')
     }
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-lg text-gray-600">Loading product data...</p>
+      </div>
+    )
   }
 
   return (
@@ -113,7 +153,7 @@ export default function EditProducts() {
           type="submit"
           className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 rounded-xl hover:from-purple-700 hover:to-pink-700 transition duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
         >
-          Edit Product
+          Update Product
         </button>
       </form>
     </div>
