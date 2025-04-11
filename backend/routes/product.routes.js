@@ -1,26 +1,21 @@
-import express from "express";
+import express from 'express'
+import uplaod from '../config/multer.js'
 import {
   createProduct,
-  getAllmyCreateProducts,
   deleteProducts,
-  getAllProducts,
   editProducts,
-} from "../controllers/product.controller.js";
-import authMiddleware from "../middlewares/auth.middewares.js";
-import uplaod from "../config/multer.js";
+  getAllmyCreateProducts,
+  getAllProducts,
+} from '../controllers/product.controller.js'
+import authMiddleware from '../middlewares/auth.middewares.js'
 
-const productRouter = express.Router();
+const productRouter = express.Router()
 
-productRouter.post(
-  "/create",
-  uplaod.single("productimages"),
-  authMiddleware,
-  createProduct
-);
+productRouter.post('/create', uplaod.single('productimages'), authMiddleware, createProduct)
 
-productRouter.get("/user-products", authMiddleware, getAllmyCreateProducts);
-productRouter.delete("/delete/:id", authMiddleware, deleteProducts);
-productRouter.get("/getall-products", authMiddleware, getAllProducts);
-productRouter.put("/edit", authMiddleware, editProducts);
+productRouter.get('/user-products', authMiddleware, getAllmyCreateProducts)
+productRouter.delete('/delete/:id', authMiddleware, deleteProducts)
+productRouter.get('/getall-products', authMiddleware, getAllProducts)
+productRouter.put('/edit/:id', authMiddleware, editProducts)
 
-export default productRouter;
+export default productRouter

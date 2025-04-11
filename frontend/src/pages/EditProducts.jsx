@@ -1,11 +1,16 @@
 import React, { useContext, useState } from 'react'
+import { useNavigate, useParams } from 'react-router'
 import { ProductContext } from '../context/ProductContext'
-export default function CreateProduct() {
-  const { createProduct } = useContext(ProductContext)
+
+export default function EditProducts() {
+  const navigate = useNavigate()
+  const { id } = useParams()
+
+  const { editProduct } = useContext(ProductContext)
 
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
-  const [price, setPrice] = useState(null)
+  const [price, setPrice] = useState('')
   const [category, setCategory] = useState('')
   const [brand, setBrand] = useState('')
   const [stock, setStock] = useState('')
@@ -17,7 +22,7 @@ export default function CreateProduct() {
     const formData = new FormData()
     formData.append('name', name)
     formData.append('description', description)
-    formData.append('price', price)
+    formData.append('price', Number(price))
     formData.append('category', category)
     formData.append('brand', brand)
     formData.append('stock', stock)
@@ -26,17 +31,18 @@ export default function CreateProduct() {
     }
 
     try {
-      await createProduct(formData)
+      await editProduct(formData, id)
       setName('')
       setBrand('')
       setCategory('')
       setDescription('')
-      setPrice(null)
+      setPrice('')
       setStock('')
-      setProductImage('')
-      window.location.href = '/'
+      setProductImage(null)
+      navigate('/')
     } catch (error) {
-      console.log(error)
+      console.error(error)
+      alert('Something went wrong while editing the product. Please try again.')
     }
   }
 
@@ -47,7 +53,7 @@ export default function CreateProduct() {
         className="w-full max-w-lg bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-8 space-y-6 border border-purple-100"
       >
         <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 text-center mb-8">
-          Create New Product
+          Edit Product
         </h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -107,7 +113,7 @@ export default function CreateProduct() {
           type="submit"
           className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 rounded-xl hover:from-purple-700 hover:to-pink-700 transition duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
         >
-          Create Product
+          Edit Product
         </button>
       </form>
     </div>

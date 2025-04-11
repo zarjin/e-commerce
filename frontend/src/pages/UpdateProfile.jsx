@@ -1,46 +1,44 @@
-import React, { useState, useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
+import React, { useContext, useState } from 'react'
+import { AuthContext } from '../context/AuthContext'
 
 const UpdateProfile = () => {
-  const { UpdateProfile } = useContext(AuthContext);
+  const { updateProfile } = useContext(AuthContext)
 
-  const [fullname, setFullname] = useState("");
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [profile, setProfile] = useState(null);
+  const [fullname, setFullname] = useState('')
+  const [username, setUsername] = useState('')
+  const [email, setEmail] = useState('')
+  const [profile, setProfile] = useState(null)
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
-    const formData = new FormData();
-    formData.append("fullname", fullname);
-    formData.append("username", username);
-    formData.append("email", email);
-    formData.append("profile", profile);
+    const formData = new FormData()
+    formData.append('fullname', fullname)
+    formData.append('username', username)
+    formData.append('email', email)
+    formData.append('profile', profile)
 
     try {
-      await UpdateProfile(formData);
-      console.log("UpdateProfile successful!");
+      await updateProfile(formData)
+      console.log('UpdateProfile successful!')
 
-      setFullname("");
-      setUsername("");
-      setEmail("");
+      setFullname('')
+      setUsername('')
+      setEmail('')
 
-      setProfile(null);
+      setProfile(null)
 
-      window.location.href = "/profile";
+      window.location.href = '/profile'
     } catch (error) {
-      console.error("UpdateProfile error:", error);
+      console.error('UpdateProfile error:', error)
     }
-  };
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
         <h2 className="text-4xl font-extrabold text-white">Update Account</h2>
-        <p className="mt-2 text-sm text-gray-100">
-          Keep your profile fresh and fabulous 🌈
-        </p>
+        <p className="mt-2 text-sm text-gray-100">Keep your profile fresh and fabulous 🌈</p>
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-md">
@@ -48,10 +46,7 @@ const UpdateProfile = () => {
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
               <div>
-                <label
-                  htmlFor="fullname"
-                  className="block text-sm font-medium text-gray-700"
-                >
+                <label htmlFor="fullname" className="block text-sm font-medium text-gray-700">
                   Fullname
                 </label>
                 <input
@@ -64,10 +59,7 @@ const UpdateProfile = () => {
                 />
               </div>
               <div>
-                <label
-                  htmlFor="username"
-                  className="block text-sm font-medium text-gray-700"
-                >
+                <label htmlFor="username" className="block text-sm font-medium text-gray-700">
                   Username
                 </label>
                 <input
@@ -82,10 +74,7 @@ const UpdateProfile = () => {
             </div>
 
             <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
-              >
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                 Email address
               </label>
               <input
@@ -99,10 +88,7 @@ const UpdateProfile = () => {
             </div>
 
             <div>
-              <label
-                htmlFor="profile"
-                className="block text-sm font-medium text-gray-700"
-              >
+              <label htmlFor="profile" className="block text-sm font-medium text-gray-700">
                 Profile Image
               </label>
               <input
@@ -131,7 +117,7 @@ const UpdateProfile = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default UpdateProfile;
+export default UpdateProfile

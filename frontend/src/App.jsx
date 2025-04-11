@@ -1,47 +1,36 @@
-import React from "react";
-import { AuthProvider } from "./context/AuthContext.jsx";
-import { BrowserRouter as Router, Route, Routes } from "react-router";
-import { ToastContainer } from "react-toastify";
-import Register from "./pages/Register";
-import Login from "./pages/Login";
-import Navbar from "./components/Navbar";
-import Profile from "./pages/Profile.jsx";
-import UpdateProfile from "./pages/UpdateProfile.jsx";
-import CreateProduct from "./pages/CreateProduct.jsx";
-import { ProdcutProvider } from "./context/ProductContext.jsx";
-import ProtectedRoute from "./components/ProtectedRoute.jsx";
+import React from 'react'
+import { Route, BrowserRouter as Router, Routes } from 'react-router'
+import { ToastContainer } from 'react-toastify'
+import Navbar from './components/Navbar'
+import { AuthProvider } from './context/AuthContext.jsx'
+import { ProductProvider } from './context/ProductContext.jsx'
+import CreateProduct from './pages/CreateProduct.jsx'
+import EditProducts from './pages/EditProducts.jsx'
+import Home from './pages/Home.jsx'
+import Login from './pages/Login'
+import Profile from './pages/Profile.jsx'
+import Register from './pages/Register'
+import UpdateProfile from './pages/UpdateProfile.jsx'
 
 export default function App() {
   return (
     <Router>
       <AuthProvider>
-        <ProdcutProvider>
+        <ProductProvider>
           <Navbar />
           <ToastContainer />
           <Routes>
-            <Route path="/" element={<div>App</div>} />
+            <Route path="/" element={<Home />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
-            <Route
-              path="/profile"
-              element={
-                <ProtectedRoute>
-                  <Profile />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/updateprofile"
-              element={
-                <ProtectedRoute>
-                  <UpdateProfile />
-                </ProtectedRoute>
-              }
-            />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/updateprofile" element={<UpdateProfile />} />
             <Route path="/create-products" element={<CreateProduct />} />
+
+            <Route path="/edit-products/:id" element={<EditProducts />} />
           </Routes>
-        </ProdcutProvider>
+        </ProductProvider>
       </AuthProvider>
     </Router>
-  );
+  )
 }

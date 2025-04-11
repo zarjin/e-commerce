@@ -1,39 +1,39 @@
-import React, { useState, useContext } from "react";
-import { Link } from "react-router";
-import { AuthContext } from "../context/AuthContext";
+import React, { useContext, useState } from 'react'
+import { Link } from 'react-router'
+import { AuthContext } from '../context/AuthContext'
 
 const Register = () => {
-  const { register } = useContext(AuthContext);
+  const { register } = useContext(AuthContext)
 
-  const [fullname, setFullname] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [profile, setProfile] = useState(null);
+  const [fullname, setFullname] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [profile, setProfile] = useState(null)
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
-    const formData = new FormData();
-    formData.append("fullname", fullname);
-    formData.append("email", email);
-    formData.append("password", password);
-    formData.append("profile", profile);
+    const formData = new FormData()
+    formData.append('fullname', fullname)
+    formData.append('email', email)
+    formData.append('password', password)
+    formData.append('profile', profile)
 
     try {
-      await register(formData);
-      console.log("Registration successful!");
+      await register(formData)
+      console.log('Registration successful!')
 
       // Reset form
-      setFullname("");
-      setEmail("");
-      setPassword("");
-      setProfile(null);
+      setFullname('')
+      setEmail('')
+      setPassword('')
+      setProfile(null)
 
-      window.location.href = "/";
+      window.location.href = '/'
     } catch (error) {
-      console.error("Registration error:", error);
+      console.error('Registration error:', error)
     }
-  };
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100 flex items-center justify-center p-4">
@@ -84,17 +84,14 @@ const Register = () => {
         </form>
 
         <p className="text-center text-gray-600">
-          Already have an account?{" "}
-          <Link
-            to="/login"
-            className="text-purple-600 hover:text-purple-700 font-semibold"
-          >
+          Already have an account?{' '}
+          <Link to="/login" className="text-purple-600 hover:text-purple-700 font-semibold">
             Login
           </Link>
         </p>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Register;
+export default Register
