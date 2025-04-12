@@ -9,6 +9,7 @@ export const ProductProvider = ({ children }) => {
 
   const [userProducts, setUserProducts] = useState([])
   const [allProducts, setAllProducts] = useState([])
+  const [productDetails, setProductDetails] = useState(null)
 
   const handleError = (error, fallback = 'Something went wrong') => {
     const msg = error?.response?.data?.message || error.message || fallback
@@ -73,9 +74,21 @@ export const ProductProvider = ({ children }) => {
     }
   }
 
+  const getProductDetails = async (id) => {
+    try {
+      const { data } = await axios.get(`${PRODUCTS_URL}/product/${id}`, {
+        withCredentials: true,
+      })
+      setProductDetails(data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   useEffect(() => {
     getUserProducts()
     getAllProducts()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
@@ -87,7 +100,9 @@ export const ProductProvider = ({ children }) => {
         getAllProducts,
         getUserProducts,
         userProducts,
+        getProductDetails,
         allProducts,
+        productDetails,
       }}
     >
       {children}

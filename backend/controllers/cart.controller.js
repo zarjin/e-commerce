@@ -1,7 +1,10 @@
 import cartModels from '../models/cart.models.js'
 export const addCart = async (req, res) => {
-  const { userId, products } = req.body
+  const { products } = req.body
   try {
+    // Use the authenticated user's ID from the request object
+    const userId = req.user.id
+
     const cart = new cartModels({ userId, products })
     await cart.save()
     res.status(200).json(cart)

@@ -1,16 +1,26 @@
 import React, { useContext } from 'react'
+import { toast } from 'react-toastify'
+import { AuthContext } from '../context/AuthContext'
 import { CartContext } from '../context/CartContext'
 import { ProductContext } from '../context/ProductContext'
+import { Link } from 'react-router'
 
 export default function Home() {
   const { allProducts } = useContext(ProductContext)
   const { addCart } = useContext(CartContext)
+  const { userData } = useContext(AuthContext)
 
   // Define a dynamic handler that takes a product object as an argument
   const handleAddCart = (product) => {
+    if (!userData) {
+      // If user is not logged in or userData is not available
+      toast.error('Please log in to add items to cart')
+      return
+    }
+
     // Construct the payload specific to the product
+    // We only need to send the product ID now, as the backend will use the authenticated user's ID
     const addCartData = {
-      userId: product.createdBy, // Assuming each product has a createdBy field
       products: [
         {
           productId: product._id,
@@ -29,13 +39,15 @@ export default function Home() {
             key={product._id}
             className="bg-white rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 p-4 flex flex-col"
           >
-            <div className="w-full h-48 bg-gray-200 rounded-lg overflow-hidden mb-4">
-              <img
-                src={product.productimages[0]?.url}
-                alt={product.name}
-                className="w-full h-full object-cover"
-              />
-            </div>
+            <Link to={`/product/${product._id}`}>
+              <div className="w-full h-48 bg-gray-200 rounded-lg overflow-hidden mb-4">
+                <img
+                  src={product.productimages[0]?.url}
+                  alt={product.name}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </Link>
 
             <h3 className="text-lg font-semibold text-gray-800 mb-1 line-clamp-1">
               {product.name}

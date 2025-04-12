@@ -1,5 +1,5 @@
 import express from 'express'
-import uplaod from '../config/multer.js'
+import upload from '../config/multer.js'
 import {
   createProduct,
   deleteProducts,
@@ -8,16 +8,16 @@ import {
   getAllProducts,
   getProductById,
 } from '../controllers/product.controller.js'
-import authMiddleware from '../middlewares/auth.middewares.js'
+import authMiddleware from '../middlewares/auth.middlewares.js'
 
 const productRouter = express.Router()
 
-productRouter.post('/create', uplaod.single('productimages'), authMiddleware, createProduct)
+productRouter.post('/create', upload.single('productimages'), authMiddleware, createProduct)
 
 productRouter.get('/user-products', authMiddleware, getAllmyCreateProducts)
 productRouter.delete('/delete/:id', authMiddleware, deleteProducts)
 productRouter.get('/getall-products', authMiddleware, getAllProducts)
 productRouter.get('/product/:id', authMiddleware, getProductById)
-productRouter.put('/edit/:id', uplaod.single('productimages'), authMiddleware, editProducts)
+productRouter.put('/edit/:id', upload.single('productimages'), authMiddleware, editProducts)
 
 export default productRouter

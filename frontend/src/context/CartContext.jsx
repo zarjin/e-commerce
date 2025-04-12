@@ -4,9 +4,9 @@ import { toast } from 'react-toastify'
 
 export const CartContext = createContext()
 
-export const CartProcider = ({ children }) => {
+export const CartProvider = ({ children }) => {
   const CART_API = import.meta.env.VITE_BACKEND_CART_URL
-  const [CartData, setCartData] = useState([])
+  const [cartData, setCartData] = useState([])
 
   const addCart = async (CartAddData) => {
     try {
@@ -47,7 +47,7 @@ export const CartProcider = ({ children }) => {
   }, [])
 
   return (
-    <CartContext.Provider value={{ addCart, removeFromCart, CartData, getAllCart }}>
+    <CartContext.Provider value={{ addCart, removeFromCart, cartData, getAllCart }}>
       {children}
     </CartContext.Provider>
   )

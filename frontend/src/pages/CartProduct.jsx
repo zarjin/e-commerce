@@ -3,9 +3,9 @@ import { Link } from 'react-router'
 import { CartContext } from '../context/CartContext'
 
 export default function CartProduct() {
-  const { CartData, removeFromCart } = useContext(CartContext)
+  const { cartData, removeFromCart } = useContext(CartContext)
 
-  if (!CartData || CartData.length === 0) {
+  if (!cartData || cartData.length === 0) {
     return (
       <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-4">
         <div className="bg-white rounded-2xl shadow-md p-8 max-w-md w-full text-center">
@@ -26,7 +26,7 @@ export default function CartProduct() {
   // Calculate total price
   const calculateTotal = () => {
     let total = 0
-    CartData.forEach((cart) => {
+    cartData.forEach((cart) => {
       cart.products.forEach((product) => {
         if (product.productId && product.productId.price) {
           total += product.productId.price
@@ -42,7 +42,7 @@ export default function CartProduct() {
         <h1 className="text-3xl font-bold text-gray-800 mb-8">Your Shopping Cart</h1>
 
         <div className="bg-white rounded-2xl shadow-md overflow-hidden mb-6">
-          {CartData.map((cart) => (
+          {cartData.map((cart) => (
             <div key={cart._id}>
               {cart.products.map((item) => (
                 <div key={item._id} className="border-b border-gray-200 last:border-b-0">

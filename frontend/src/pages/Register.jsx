@@ -6,6 +6,13 @@ const Register = () => {
   const { register } = useContext(AuthContext)
 
   const [fullname, setFullname] = useState('')
+  const [username, setUsername] = useState('')
+
+  // Ensure username is validated before submission
+  const validateUsername = (username) => {
+    const usernameRegex = /^[a-zA-Z0-9_]{3,15}$/ // Example: alphanumeric and underscores, 3-15 chars
+    return usernameRegex.test(username)
+  }
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [profile, setProfile] = useState(null)
@@ -13,8 +20,14 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
+    if (!validateUsername(username)) {
+      alert('Invalid username. Please use 3-15 alphanumeric characters or underscores.')
+      return
+    }
+
     const formData = new FormData()
     formData.append('fullname', fullname)
+    formData.append('username', username)
     formData.append('email', email)
     formData.append('password', password)
     formData.append('profile', profile)
@@ -25,6 +38,7 @@ const Register = () => {
 
       // Reset form
       setFullname('')
+      setUsername('')
       setEmail('')
       setPassword('')
       setProfile(null)
@@ -49,6 +63,13 @@ const Register = () => {
               placeholder="Full Name"
               value={fullname}
               onChange={(e) => setFullname(e.target.value)}
+              className="w-full px-4 py-3 rounded-xl border border-purple-200 focus:border-purple-400 focus:ring-2 focus:ring-purple-200 outline-none transition duration-200 bg-white/50 backdrop-blur-sm"
+            />
+            <input
+              type="text"
+              placeholder="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               className="w-full px-4 py-3 rounded-xl border border-purple-200 focus:border-purple-400 focus:ring-2 focus:ring-purple-200 outline-none transition duration-200 bg-white/50 backdrop-blur-sm"
             />
             <input
