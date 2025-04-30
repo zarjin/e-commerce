@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
   {
@@ -26,11 +26,11 @@ const userSchema = new mongoose.Schema(
     },
     profilePicture: {
       type: String,
-      default: '',
+      default: "",
     },
     phone: {
       type: String,
-      default: '',
+      default: "",
       trim: true,
     },
     isAdmin: {
@@ -41,13 +41,8 @@ const userSchema = new mongoose.Schema(
       {
         productId: {
           type: mongoose.Schema.Types.ObjectId,
-          ref: 'Product',
+          ref: "Product",
           required: true,
-        },
-        quantity: {
-          type: Number,
-          default: 1,
-          min: 1,
         },
       },
     ],
@@ -55,7 +50,7 @@ const userSchema = new mongoose.Schema(
       {
         productId: {
           type: mongoose.Schema.Types.ObjectId,
-          ref: 'Product',
+          ref: "Product",
         },
       },
     ],
@@ -63,7 +58,7 @@ const userSchema = new mongoose.Schema(
   {
     timestamps: true,
   }
-)
+);
 
-const userModel = mongoose.model('User', userSchema)
-export default userModel
+const userModel = mongoose.model("User", userSchema);
+export default userModel;
