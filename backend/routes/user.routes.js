@@ -1,27 +1,31 @@
 import express from "express";
 import {
-  addCart,
   updateUser,
+  deleteUser,
   getUser,
-  isAdmin,
-  removeCart,
   previewUser,
+  addCart,
+  removeCart,
+  isAdmin,
+  getCart,
 } from "../controllers/user.controller.js";
 import isAuthenticated from "../middlewares/isAuthenticated.js";
+import { uploadProfilePicture } from "../configs/cloudinary.config.js";
 
 const userRouter = express.Router();
 
-// Route to get user details
-userRouter.get("/user/:id", isAuthenticated, getUser);
-// Route to update user details
-userRouter.put("/user/:id", isAuthenticated, updateUser);
-// Route to add item to cart
-userRouter.put("/user/cart/:id", isAuthenticated, addCart);
-// Route to remove item from cart
-userRouter.put("/user/cart/remove/:id", isAuthenticated, removeCart);
-// Route to preview user details (admin only)
-userRouter.get("/user/preview/:id", isAuthenticated, isAdmin, previewUser);
-// Route to check if user is admin
-userRouter.get("/user/isAdmin/:id", isAuthenticated, isAdmin);
+userRouter.put(
+  "/update-user",
+  isAuthenticated,
+  uploadProfilePicture.single("profilePicture"),
+  updateUser
+);
+userRouter.delete("/delete-user", isAuthenticated, deleteUser);
+userRouter.get("/get-user", isAuthenticated, getUser);
+userRouter.get("/preview-user/:id", previewUser);
+userRouter.put("/add-cart/:productId", isAuthenticated, addCart);
+userRouter.post("/remove-cart/:productId", isAuthenticated, removeCart);
+userRouter.post("/isAdmin", isAuthenticated, isAdmin);
+userRouter.get("/getCart", isAuthenticated, getCart);
 
 export default userRouter;

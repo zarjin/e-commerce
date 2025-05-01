@@ -5,6 +5,7 @@ import "dotenv/config";
 import mongodbConnect from "./configs/mongodb.connect.js";
 import authRouter from "./routes/auth.routes.js";
 import userRouter from "./routes/user.routes.js";
+import productRouter from "./routes/product.roures.js";
 
 const app = express();
 mongodbConnect();
@@ -21,6 +22,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
+app.use("/api/product", productRouter);
 
 const PORT = process.env.PORT;
 

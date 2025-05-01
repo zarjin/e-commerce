@@ -42,7 +42,7 @@ export const getUser = async (req, res) => {
   const userId = req.user.id;
   try {
     const user = await userModel.findById(userId);
-    res.status(200).json({ user });
+    res.status(200).json(user);
   } catch (error) {
     res.status(500).json({ message: "Get User Error", error: error.message });
   }
@@ -135,5 +135,28 @@ export const isAdmin = async (req, res) => {
     return res
       .status(500)
       .json({ message: "Something went wrong", error: error.message });
+  }
+};
+
+export const getCart = async (req, res) => {
+  const userId = req.user.id;
+
+  try {
+    const user = await userModel.findById(userId).populate("cart.productId");
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({
+      message: "Cart retrieved successfully",
+      cart: user.cart,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: "Error retrieving cart",
+      error: error.message,
+    });
   }
 };
