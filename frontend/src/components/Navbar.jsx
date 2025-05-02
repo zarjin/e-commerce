@@ -3,7 +3,7 @@ import { Link } from "react-router";
 import { ShoppingCart, CircleUserRound, ShoppingBag } from "lucide-react";
 
 export default function Navbar() {
-  const isAuthenticated = false; // Replace with your actual auth logic
+  const isAuthenticated = true; // Replace with your actual auth logic
 
   return (
     <header className="w-full h-20 flex items-center justify-between px-8 shadow-sm ">
