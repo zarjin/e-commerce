@@ -1,14 +1,22 @@
-import React, { useContext } from 'react';
-import { Link } from 'react-router';
-import { ShoppingCart, CircleUserRound, ShoppingBag } from 'lucide-react';
-import { AuthContext } from '../context/AuthContext';
+import React, { useContext } from 'react'
+import { Link } from 'react-router'
+import {
+  ShoppingCart,
+  CircleUserRound,
+  ShoppingBag,
+  ImageUpIcon,
+} from 'lucide-react'
+import { AuthContext } from '../context/AuthContext'
 
 export default function Navbar() {
-  const { isLoggedIn } = useContext(AuthContext);
+  const { isLoggedIn } = useContext(AuthContext)
   return (
     <header className='w-full h-20 flex items-center justify-between px-8 shadow-sm '>
       {/* Logo */}
-      <Link to='/' className='text-dark-green text-3xl font-bold tracking-wider'>
+      <Link
+        to='/'
+        className='text-dark-green text-3xl font-bold tracking-wider'
+      >
         SHOP
       </Link>
 
@@ -21,10 +29,24 @@ export default function Navbar() {
         {/* Authenticated User */}
         {isLoggedIn ? (
           <>
-            <Link to='/cart' className='text-gray-700 hover:text-dark-green transition-colors'>
+            <Link
+              to='/cart'
+              className='text-gray-700 hover:text-dark-green transition-colors'
+            >
               <ShoppingCart size={28} />
             </Link>
-            <Link to='/profile' className='text-gray-700 hover:text-dark-green transition-colors'>
+
+            <Link
+              to='/create-product'
+              className='text-gray-700 hover:text-dark-green transition-colors'
+            >
+              <ImageUpIcon size={28} />
+            </Link>
+
+            <Link
+              to='/profile'
+              className='text-gray-700 hover:text-dark-green transition-colors'
+            >
               <CircleUserRound size={28} />
             </Link>
           </>
@@ -45,5 +67,5 @@ export default function Navbar() {
         )}
       </nav>
     </header>
-  );
+  )
 }
