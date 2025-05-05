@@ -5,6 +5,7 @@ import { UserProvider } from './context/UserContext';
 import { ProductProvider } from './context/ProductContext';
 import { ToastContainer } from 'react-toastify';
 import Navbar from './components/Navbar';
+import AdminRoute from './components/AdminRoute';
 import Home from './pages/Home';
 import Shop from './pages/Shop';
 import Profile from './pages/Profile';
@@ -15,6 +16,8 @@ import UpdateUser from './components/UpdateUser';
 import CreateProduct from './components/CreateProduct';
 import ProductDetail from './pages/ProductDetail';
 import Checkout from './pages/Checkout';
+import AdminDashboard from './pages/AdminDashboard';
+import CreateAdmin from './pages/CreateAdmin';
 
 export default function App() {
   return (
@@ -35,6 +38,15 @@ export default function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/update-user" element={<UpdateUser />} />
               <Route path="/create-product" element={<CreateProduct />} />
+              <Route
+                path="/admin"
+                element={
+                  <AdminRoute>
+                    <AdminDashboard />
+                  </AdminRoute>
+                }
+              />
+              <Route path="/create-admin" element={<CreateAdmin />} />
             </Routes>
           </ProductProvider>
         </UserProvider>

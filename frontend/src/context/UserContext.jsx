@@ -7,6 +7,7 @@ export const UserContext = createContext();
 export const UserProvider = ({ children }) => {
   const USER_API = import.meta.env.VITE_USER_API;
   const [authUserData, setAuthUserData] = useState();
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const updateUser = async (updateData) => {
     try {
@@ -77,13 +78,48 @@ export const UserProvider = ({ children }) => {
     }
   };
 
+  const checkIsAdmin = async () => {
+    try {
+      const { data } = await axios.post(
+        `${USER_API}/isAdmin`,
+        {},
+        {
+          withCredentials: true,
+        }
+      );
+
+      // Make sure we have a valid response with isAdmin property
+      if (data && typeof data.isAdmin === 'boolean') {
+        setIsAdmin(data.isAdmin);
+        return data.isAdmin;
+      } else {
+        console.error('Invalid admin status response:', data);
+        setIsAdmin(false);
+        return false;
+      }
+    } catch (error) {
+      console.error('Error checking admin status:', error);
+      setIsAdmin(false);
+      return false;
+    }
+  };
+
   useEffect(() => {
     getUserData();
+    checkIsAdmin();
   }, []);
 
   return (
     <UserContext.Provider
-      value={{ updateUser, authUserData, deleteUser, addCart, removeCart }}
+      value={{
+        updateUser,
+        authUserData,
+        deleteUser,
+        addCart,
+        removeCart,
+        isAdmin,
+        checkIsAdmin,
+      }}
     >
       {children}
     </UserContext.Provider>

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Link, useNavigate } from 'react-router';
+import { Link, useNavigate } from 'react-router-dom';
 import { UserContext } from '../context/UserContext';
 import { AuthContext } from '../context/AuthContext';
 
@@ -83,6 +83,21 @@ export default function Profile() {
                 {authUserData.phone || 'Not Provided'}
               </span>
             </div>
+            <div className="flex items-center space-x-3 p-3 hover:bg-green-50 rounded-lg transition-colors">
+              <span className="text-green-600 font-medium min-w-[80px]">
+                Role:
+              </span>
+              <span className="text-gray-700">
+                {authUserData.isAdmin ? (
+                  <span className="flex items-center">
+                    <span className="inline-block w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                    Admin
+                  </span>
+                ) : (
+                  'Customer'
+                )}
+              </span>
+            </div>
           </div>
           <div className="space-y-3">
             <Link to="/update-user">
@@ -90,6 +105,15 @@ export default function Profile() {
                 Edit Profile
               </button>
             </Link>
+
+            {authUserData.isAdmin && (
+              <Link to="/admin">
+                <button className="w-full bg-blue-600 text-white py-3 px-4 rounded-xl hover:bg-blue-700 transition-colors duration-300 font-medium shadow-md hover:shadow-lg">
+                  Admin Dashboard
+                </button>
+              </Link>
+            )}
+
             <button
               onClick={handleLogout}
               className="w-full bg-red-500 text-white py-3 px-4 rounded-xl hover:bg-red-600 transition-colors duration-300 font-medium shadow-md hover:shadow-lg"

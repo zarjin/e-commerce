@@ -9,6 +9,7 @@ import {
   Menu,
   X,
   LogOut,
+  LayoutDashboard,
 } from 'lucide-react';
 import { AuthContext } from '../context/AuthContext';
 import { UserContext } from '../context/UserContext';
@@ -104,6 +105,16 @@ export default function Navbar() {
               <span>Profile</span>
             </Link>
 
+            {userContext?.authUserData?.isAdmin && (
+              <Link
+                to="/admin"
+                className="text-gray-700 hover:text-dark-green transition-colors flex items-center gap-1"
+              >
+                <LayoutDashboard size={22} />
+                <span>Admin</span>
+              </Link>
+            )}
+
             <button
               onClick={handleLogout}
               className="text-gray-700 hover:text-red-500 transition-colors flex items-center gap-1"
@@ -175,6 +186,17 @@ export default function Navbar() {
                   <CircleUserRound size={20} />
                   <span>Profile</span>
                 </Link>
+
+                {userContext?.authUserData?.isAdmin && (
+                  <Link
+                    to="/admin"
+                    className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    <LayoutDashboard size={20} />
+                    <span>Admin Dashboard</span>
+                  </Link>
+                )}
 
                 <button
                   className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded w-full text-left"

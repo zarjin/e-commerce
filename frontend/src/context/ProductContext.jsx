@@ -55,10 +55,23 @@ export const ProductProvider = ({ children }) => {
       const { data } = await axios.get(`${PRODUCT_API}/get-admin-products`, {
         withCredentials: true,
       });
-      setAdminProduct(data.products);
+
+      // Check if data.products exists, otherwise use the empty array
+      if (data && data.products) {
+        setAdminProduct(data.products);
+        return data.products;
+      } else {
+        console.error('Invalid response format:', data);
+        setAdminProduct([]);
+        return [];
+      }
     } catch (error) {
-      console.error(error);
-      toast.error(error.response?.data?.message || 'An error occurred');
+      console.error('Error fetching admin products:', error);
+      toast.error(
+        error.response?.data?.message || 'Failed to load admin products'
+      );
+      setAdminProduct([]);
+      throw error;
     }
   };
 
@@ -90,6 +103,8 @@ export const ProductProvider = ({ children }) => {
         allProduct,
         adminProduct,
         getProductById,
+        getAdminProduct,
+        getAllProduct,
       }}
     >
       {children}
