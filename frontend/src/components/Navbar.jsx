@@ -46,30 +46,36 @@ export default function Navbar() {
   };
 
   return (
-    <header className="w-full h-20 flex items-center justify-between px-4 md:px-8 shadow-sm bg-white sticky top-0 z-50">
+    <header className="w-full h-20 flex items-center justify-between px-4 md:px-8 sticky top-0 z-50 shadow-soft backdrop-blur-sm bg-white/90">
       {/* Logo */}
       <Link
         to="/"
-        className="text-dark-green text-2xl md:text-3xl font-bold tracking-wider"
+        className="text-primary-600 text-2xl md:text-3xl font-bold tracking-tight flex items-center"
       >
-        SHOP
+        <span className="bg-gradient-to-r from-primary-600 to-secondary-500 text-transparent bg-clip-text">
+          SHOP
+        </span>
       </Link>
 
       {/* Mobile Menu Button */}
       <button
-        className="md:hidden text-gray-700 hover:text-dark-green"
+        className="md:hidden text-neutral-700 hover:text-primary-600 transition-colors"
         onClick={toggleMobileMenu}
       >
-        {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+        {mobileMenuOpen ? (
+          <X size={28} strokeWidth={1.5} />
+        ) : (
+          <Menu size={28} strokeWidth={1.5} />
+        )}
       </button>
 
       {/* Desktop Navigation */}
       <nav className="hidden md:flex items-center space-x-8">
         <Link
           to="/shop"
-          className="text-gray-700 hover:text-dark-green transition-colors flex items-center gap-1"
+          className="text-neutral-700 hover:text-primary-600 transition-colors flex items-center gap-1.5 font-medium"
         >
-          <ShoppingBag size={22} />
+          <ShoppingBag size={20} strokeWidth={1.5} />
           <span>Shop</span>
         </Link>
 
@@ -78,48 +84,48 @@ export default function Navbar() {
           <>
             <Link
               to="/cart"
-              className="text-gray-700 hover:text-dark-green transition-colors relative flex items-center gap-1"
+              className="text-neutral-700 hover:text-primary-600 transition-colors relative flex items-center gap-1.5 font-medium"
             >
-              <ShoppingCart size={22} />
+              <ShoppingCart size={20} strokeWidth={1.5} />
               {cartCount > 0 && (
-                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                <span className="absolute -top-2 -right-2 bg-secondary-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                   {cartCount}
                 </span>
               )}
-              <span className="ml-1">Cart</span>
+              <span>Cart</span>
             </Link>
 
             <Link
               to="/create-product"
-              className="text-gray-700 hover:text-dark-green transition-colors flex items-center gap-1"
+              className="text-neutral-700 hover:text-primary-600 transition-colors flex items-center gap-1.5 font-medium"
             >
-              <ImageUpIcon size={22} />
+              <ImageUpIcon size={20} strokeWidth={1.5} />
               <span>Create</span>
             </Link>
 
             <Link
               to="/profile"
-              className="text-gray-700 hover:text-dark-green transition-colors flex items-center gap-1"
+              className="text-neutral-700 hover:text-primary-600 transition-colors flex items-center gap-1.5 font-medium"
             >
-              <CircleUserRound size={22} />
+              <CircleUserRound size={20} strokeWidth={1.5} />
               <span>Profile</span>
             </Link>
 
             {userContext?.authUserData?.isAdmin && (
               <Link
                 to="/admin"
-                className="text-gray-700 hover:text-dark-green transition-colors flex items-center gap-1"
+                className="text-neutral-700 hover:text-primary-600 transition-colors flex items-center gap-1.5 font-medium"
               >
-                <LayoutDashboard size={22} />
+                <LayoutDashboard size={20} strokeWidth={1.5} />
                 <span>Admin</span>
               </Link>
             )}
 
             <button
               onClick={handleLogout}
-              className="text-gray-700 hover:text-red-500 transition-colors flex items-center gap-1"
+              className="text-neutral-700 hover:text-red-500 transition-colors flex items-center gap-1.5 font-medium"
             >
-              <LogOut size={22} />
+              <LogOut size={20} strokeWidth={1.5} />
               <span>Logout</span>
             </button>
           </>
@@ -127,12 +133,12 @@ export default function Navbar() {
           // Not Authenticated
           <div className="flex items-center space-x-4">
             <Link to="/register">
-              <button className="bg-dark-green text-white px-5 py-2 rounded-lg font-medium hover:bg-green-800 transition-colors">
+              <button className="bg-primary-600 text-white px-5 py-2 rounded-lg font-medium hover:bg-primary-700 transition-all shadow-sm hover:shadow">
                 Register
               </button>
             </Link>
             <Link to="/login">
-              <button className="bg-dark-green text-white px-5 py-2 rounded-lg font-medium hover:bg-green-800 transition-colors">
+              <button className="bg-white text-primary-600 border border-primary-600 px-5 py-2 rounded-lg font-medium hover:bg-primary-50 transition-all">
                 Login
               </button>
             </Link>
@@ -142,28 +148,36 @@ export default function Navbar() {
 
       {/* Mobile Navigation Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden absolute top-20 left-0 right-0 bg-white shadow-md z-50">
-          <div className="flex flex-col p-4 space-y-4">
+        <div className="md:hidden absolute top-20 left-0 right-0 bg-white/95 backdrop-blur-sm shadow-soft z-50 rounded-b-xl animate-fade-in">
+          <div className="flex flex-col p-4 space-y-3">
             <Link
               to="/shop"
-              className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded"
+              className="flex items-center gap-2 p-2.5 hover:bg-neutral-100 rounded-lg transition-colors"
               onClick={() => setMobileMenuOpen(false)}
             >
-              <ShoppingBag size={20} />
-              <span>Shop</span>
+              <ShoppingBag
+                size={20}
+                strokeWidth={1.5}
+                className="text-primary-500"
+              />
+              <span className="font-medium">Shop</span>
             </Link>
 
             {isLoggedIn ? (
               <>
                 <Link
                   to="/cart"
-                  className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded"
+                  className="flex items-center gap-2 p-2.5 hover:bg-neutral-100 rounded-lg transition-colors"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  <ShoppingCart size={20} />
-                  <span>Cart</span>
+                  <ShoppingCart
+                    size={20}
+                    strokeWidth={1.5}
+                    className="text-primary-500"
+                  />
+                  <span className="font-medium">Cart</span>
                   {cartCount > 0 && (
-                    <span className="bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center ml-auto">
+                    <span className="bg-secondary-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center ml-auto">
                       {cartCount}
                     </span>
                   )}
@@ -171,50 +185,64 @@ export default function Navbar() {
 
                 <Link
                   to="/create-product"
-                  className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded"
+                  className="flex items-center gap-2 p-2.5 hover:bg-neutral-100 rounded-lg transition-colors"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  <ImageUpIcon size={20} />
-                  <span>Create Product</span>
+                  <ImageUpIcon
+                    size={20}
+                    strokeWidth={1.5}
+                    className="text-primary-500"
+                  />
+                  <span className="font-medium">Create Product</span>
                 </Link>
 
                 <Link
                   to="/profile"
-                  className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded"
+                  className="flex items-center gap-2 p-2.5 hover:bg-neutral-100 rounded-lg transition-colors"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  <CircleUserRound size={20} />
-                  <span>Profile</span>
+                  <CircleUserRound
+                    size={20}
+                    strokeWidth={1.5}
+                    className="text-primary-500"
+                  />
+                  <span className="font-medium">Profile</span>
                 </Link>
 
                 {userContext?.authUserData?.isAdmin && (
                   <Link
                     to="/admin"
-                    className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded"
+                    className="flex items-center gap-2 p-2.5 hover:bg-neutral-100 rounded-lg transition-colors"
                     onClick={() => setMobileMenuOpen(false)}
                   >
-                    <LayoutDashboard size={20} />
-                    <span>Admin Dashboard</span>
+                    <LayoutDashboard
+                      size={20}
+                      strokeWidth={1.5}
+                      className="text-primary-500"
+                    />
+                    <span className="font-medium">Admin Dashboard</span>
                   </Link>
                 )}
 
+                <div className="h-px bg-neutral-200 my-1"></div>
+
                 <button
-                  className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded w-full text-left"
+                  className="flex items-center gap-2 p-2.5 hover:bg-red-50 text-red-600 rounded-lg w-full text-left transition-colors"
                   onClick={handleLogout}
                 >
-                  <LogOut size={20} />
-                  <span>Logout</span>
+                  <LogOut size={20} strokeWidth={1.5} />
+                  <span className="font-medium">Logout</span>
                 </button>
               </>
             ) : (
-              <div className="flex flex-col space-y-2 p-2">
+              <div className="flex flex-col space-y-3 p-2 mt-2">
                 <Link to="/register" onClick={() => setMobileMenuOpen(false)}>
-                  <button className="w-full bg-dark-green text-white px-5 py-2 rounded-lg font-medium hover:bg-green-800 transition-colors">
+                  <button className="w-full bg-primary-600 text-white px-5 py-2.5 rounded-lg font-medium hover:bg-primary-700 transition-all shadow-sm hover:shadow">
                     Register
                   </button>
                 </Link>
                 <Link to="/login" onClick={() => setMobileMenuOpen(false)}>
-                  <button className="w-full bg-dark-green text-white px-5 py-2 rounded-lg font-medium hover:bg-green-800 transition-colors">
+                  <button className="w-full bg-white text-primary-600 border border-primary-600 px-5 py-2.5 rounded-lg font-medium hover:bg-primary-50 transition-all">
                     Login
                   </button>
                 </Link>
