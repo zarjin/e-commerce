@@ -1,4 +1,4 @@
-import productModel from "../models/products.models.js";
+import productModel from '../models/products.models.js';
 
 export const createProduct = async (req, res) => {
   const createBy = req.user.id;
@@ -8,14 +8,14 @@ export const createProduct = async (req, res) => {
     if (!name || !description || !price || !brand || !req.file) {
       return res.status(400).json({
         success: false,
-        message: "All fields including product image are required",
+        message: 'All fields including product image are required',
       });
     }
 
     if (isNaN(price) || price <= 0) {
       return res.status(400).json({
         success: false,
-        message: "Price must be a positive number",
+        message: 'Price must be a positive number',
       });
     }
 
@@ -34,10 +34,10 @@ export const createProduct = async (req, res) => {
       product,
     });
   } catch (error) {
-    console.error("Create Product Error:", error);
+    console.error('Create Product Error:', error);
     res.status(500).json({
       success: false,
-      message: "Internal server error",
+      message: 'Internal server error',
       error: error.message,
     });
   }
@@ -51,7 +51,7 @@ export const updateProduct = async (req, res) => {
     if (!name || !description || !price || !brand) {
       return res.status(400).json({
         success: false,
-        message: "All fields are required",
+        message: 'All fields are required',
       });
     }
 
@@ -75,7 +75,7 @@ export const updateProduct = async (req, res) => {
     if (!product) {
       return res.status(404).json({
         success: false,
-        message: "Product not found",
+        message: 'Product not found',
       });
     }
 
@@ -84,10 +84,10 @@ export const updateProduct = async (req, res) => {
       product,
     });
   } catch (error) {
-    console.error("Update Product Error:", error);
+    console.error('Update Product Error:', error);
     res.status(500).json({
       success: false,
-      message: "Internal server error",
+      message: 'Internal server error',
       error: error.message,
     });
   }
@@ -97,17 +97,17 @@ export const getAllProducts = async (req, res) => {
   try {
     const allProducts = await productModel
       .find()
-      .populate("createBy", "firstName lastName profilePicture");
+      .populate('createBy', 'firstName lastName profilePicture');
     res.status(200).json({
       success: true,
       count: allProducts.length,
       products: allProducts,
     });
   } catch (error) {
-    console.error("Get Products Error:", error);
+    console.error('Get Products Error:', error);
     res.status(500).json({
       success: false,
-      message: "Internal server error",
+      message: 'Internal server error',
       error: error.message,
     });
   }
@@ -119,7 +119,7 @@ export const getAdminProducts = async (req, res) => {
   try {
     const products = await productModel
       .find({ createBy: adminId })
-      .populate("createBy", "firstName lastName profilePicture");
+      .populate('createBy', 'firstName lastName profilePicture');
 
     res.status(200).json({
       success: true,
@@ -127,10 +127,10 @@ export const getAdminProducts = async (req, res) => {
       products,
     });
   } catch (error) {
-    console.error("Get Admin Products Error:", error);
+    console.error('Get Admin Products Error:', error);
     res.status(500).json({
       success: false,
-      message: "Internal server error",
+      message: 'Internal server error',
       error: error.message,
     });
   }
@@ -145,19 +145,48 @@ export const deleteProduct = async (req, res) => {
     if (!product) {
       return res.status(404).json({
         success: false,
-        message: "Product not found",
+        message: 'Product not found',
       });
     }
 
     res.status(200).json({
       success: true,
-      message: "Product deleted successfully",
+      message: 'Product deleted successfully',
     });
   } catch (error) {
-    console.error("Delete Product Error:", error);
+    console.error('Delete Product Error:', error);
     res.status(500).json({
       success: false,
-      message: "Internal server error",
+      message: 'Internal server error',
+      error: error.message,
+    });
+  }
+};
+
+export const getProductById = async (req, res) => {
+  const { productId } = req.params;
+
+  try {
+    const product = await productModel
+      .findById(productId)
+      .populate('createBy', 'firstName lastName profilePicture');
+
+    if (!product) {
+      return res.status(404).json({
+        success: false,
+        message: 'Product not found',
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      product,
+    });
+  } catch (error) {
+    console.error('Get Product By ID Error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error',
       error: error.message,
     });
   }

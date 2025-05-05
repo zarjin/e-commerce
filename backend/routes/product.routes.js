@@ -1,35 +1,38 @@
-import express from "express";
+import express from 'express';
 import {
   createProduct,
   updateProduct,
   getAdminProducts,
   getAllProducts,
   deleteProduct,
-} from "../controllers/products.controller.js";
-import isAuthenticated from "../middlewares/isAuthenticated.js";
-import { uploadProductPicture } from "../configs/cloudinary.config.js";
+  getProductById,
+} from '../controllers/products.controller.js';
+import isAuthenticated from '../middlewares/isAuthenticated.js';
+import { uploadProductPicture } from '../configs/cloudinary.config.js';
 const productRouter = express.Router();
 
 productRouter.post(
-  "/create-product",
+  '/create-product',
   isAuthenticated,
-  uploadProductPicture.single("productPicture"),
+  uploadProductPicture.single('productPicture'),
   createProduct
 );
 
 productRouter.put(
-  "/update-product/:productId",
+  '/update-product/:productId',
   isAuthenticated,
-  uploadProductPicture.single("productPicture"),
+  uploadProductPicture.single('productPicture'),
   updateProduct
 );
 
-productRouter.get("/get-all-products", isAuthenticated, getAllProducts);
+productRouter.get('/get-all-products', getAllProducts);
 
-productRouter.get("/get-admin-products", isAuthenticated, getAdminProducts);
+productRouter.get('/product/:productId', getProductById);
+
+productRouter.get('/get-admin-products', isAuthenticated, getAdminProducts);
 
 productRouter.delete(
-  "/delete-product/:productId",
+  '/delete-product/:productId',
   isAuthenticated,
   deleteProduct
 );

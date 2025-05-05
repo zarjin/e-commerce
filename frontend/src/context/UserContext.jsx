@@ -45,12 +45,46 @@ export const UserProvider = ({ children }) => {
     }
   };
 
+  const addCart = async (productId) => {
+    try {
+      const { data } = await axios.put(
+        `${USER_API}/add-cart/${productId}`,
+        {},
+        { withCredentials: true }
+      );
+      getUserData(); // Refresh user data to update cart
+      toast.success(data.message);
+    } catch (error) {
+      console.error('Error adding product to cart:', error);
+      toast.error('Failed to add product to cart. Please try again later.');
+    }
+  };
+
+  const removeCart = async (productId) => {
+    try {
+      const { data } = await axios.post(
+        `${USER_API}/remove-cart/${productId}`,
+        {},
+        { withCredentials: true }
+      );
+      getUserData(); // Refresh user data to update cart
+      toast.success(data.message);
+    } catch (error) {
+      console.error('Error removing product from cart:', error);
+      toast.error(
+        'Failed to remove product from cart. Please try again later.'
+      );
+    }
+  };
+
   useEffect(() => {
     getUserData();
-  });
+  }, []);
 
   return (
-    <UserContext.Provider value={{ updateUser, authUserData, deleteUser }}>
+    <UserContext.Provider
+      value={{ updateUser, authUserData, deleteUser, addCart, removeCart }}
+    >
       {children}
     </UserContext.Provider>
   );
