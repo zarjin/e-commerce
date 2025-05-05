@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   ShoppingCart,
   CircleUserRound,
@@ -8,15 +8,27 @@ import {
   Search,
   Menu,
   X,
+  LogOut,
 } from 'lucide-react';
 import { AuthContext } from '../context/AuthContext';
 import { UserContext } from '../context/UserContext';
 
 export default function Navbar() {
-  const { isLoggedIn } = useContext(AuthContext);
+  const { isLoggedIn, logout } = useContext(AuthContext);
   const userContext = useContext(UserContext);
   const [cartCount, setCartCount] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate('/');
+      setMobileMenuOpen(false);
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
+  };
 
   useEffect(() => {
     if (
@@ -91,6 +103,14 @@ export default function Navbar() {
               <CircleUserRound size={22} />
               <span>Profile</span>
             </Link>
+
+            <button
+              onClick={handleLogout}
+              className="text-gray-700 hover:text-red-500 transition-colors flex items-center gap-1"
+            >
+              <LogOut size={22} />
+              <span>Logout</span>
+            </button>
           </>
         ) : (
           // Not Authenticated
@@ -155,6 +175,14 @@ export default function Navbar() {
                   <CircleUserRound size={20} />
                   <span>Profile</span>
                 </Link>
+
+                <button
+                  className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded w-full text-left"
+                  onClick={handleLogout}
+                >
+                  <LogOut size={20} />
+                  <span>Logout</span>
+                </button>
               </>
             ) : (
               <div className="flex flex-col space-y-2 p-2">
